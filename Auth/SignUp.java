@@ -42,7 +42,7 @@ public class SignUp {
         JLabel firstLabel = label("First Name:", 20, 10);
         panel.add(firstLabel);
         // ========================= JTEXTFILED SECTION ========================== //
-        JTextField firstField = field("First Name", 20, 30);
+        JTextField firstField = field( 20, 30);
         panel.add(firstField);
 
         // ===================== LAST NAME LABEL =================== //
@@ -50,7 +50,7 @@ public class SignUp {
         panel.add(lastLabel);
 
         // ===================== LAST NAME TEXTFIELD =================== //
-        JTextField lastField = field("Last Name", 20, 90);
+        JTextField lastField = field(20, 90);
         panel.add(lastField);
 
         // ==================== CNIC LABEL ===================== //
@@ -58,7 +58,7 @@ public class SignUp {
         panel.add(cnicLabel);
 
         // ==================== CNIC TEXTFILED =================== //
-        JTextField cnicField = field("CNIC", 20, 150);
+        JTextField cnicField = field(20, 150);
         panel.add(cnicField);
 
         // ==================== PIN OF ATM =====================//
@@ -66,7 +66,7 @@ public class SignUp {
         panel.add(pinLabel);
 
         // ==================== PIN TEXTFIELD ATM ===================== //
-        JTextField pinField = field("PIN", 20, 210);
+        JTextField pinField = field(20, 210);
         panel.add(pinField);
 
         // ==================== Email Label ============================ //
@@ -74,7 +74,7 @@ public class SignUp {
         panel.add(emailLabel);
 
         // ==================== Email TextField =======================//
-        JTextField emailField = field("Email", 20, 270);
+        JTextField emailField = field( 20, 270);
         emailField.setBounds(20, 270, 200, 30);
         panel.add(emailField);
 
@@ -119,9 +119,19 @@ public class SignUp {
                 JOptionPane.showMessageDialog(null, "Enter CNIC");
                 return;
             }
-           String pin = pinField.getText();
+            if(cnic.length() <13 || cnic.length()>13)
+            {
+                JOptionPane.showMessageDialog(null, "CNIC IS INVALID MUST BE OF 13 CHARACTER");
+                return;
+            }
+            String pin = pinField.getText();
             if (pin.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "PIN");
+                return;
+            }
+            if (pin.length()<4 || pin.length()>4)
+            {
+                JOptionPane.showMessageDialog(null, "Pin Should be of four digit");
                 return;
             }
             String email = emailField.getText();
@@ -129,7 +139,17 @@ public class SignUp {
                 JOptionPane.showMessageDialog(null, "Enter Email");
                 return;
             }
+            if (!email.contains("@gmail.com"))
+            {
+                JOptionPane.showMessageDialog(null , "invalid email formate");
+                return;
+            }
             String password = String.valueOf(pass.getPassword());
+            if (password.isEmpty())
+            {
+                JOptionPane.showMessageDialog(null, "Enter your Password");
+                return;
+            }
             String confirmPassword = String.valueOf(confirPasswordField.getPassword());
 
             if (!password.equals(confirmPassword)) {
@@ -138,8 +158,9 @@ public class SignUp {
             }
 
             try {
+                System.out.println("Database");
                 Connection con = DBConnection.getConnection();
-                String query = "INSERT INTO USERS(first_name , last_name , pin , cnic, email,password) VALUES ( ?, ? , ? ,?,?,?)";
+                String query = "INSERT INTO USERS(first_name , last_name , pin , cnic, email, password) VALUES ( ?, ? , ? ,?,?,?)";
                 PreparedStatement ps = con.prepareStatement(query);
 
                 ps.setString(1, firstName);
@@ -150,23 +171,21 @@ public class SignUp {
                 ps.setString(6, password);
                 int row = ps.executeUpdate();
 
-                if (row>0)
-                {
+                if (row > 0) {
+                    System.out.println(row);
                     JOptionPane.showMessageDialog(null, "Account Created Succefully");
                     return;
-                }
-                else {
+                } else {
                     JOptionPane.showMessageDialog(null, "Failed to Create Account");
                 }
 
                 ps.close();
 
             } catch (Exception e1) {
-                e1.getMessage();
+                e1.printStackTrace();
             }
         });
         panel.add(btn);
-
     }
 
     // ======================= LABEL METHOD ========================== //
@@ -195,29 +214,15 @@ public class SignUp {
 
     // ====================== TEXT FIELD METHOD =======================//
 
-    JTextField field(String text, int x, int y) {
+    JTextField field(int x, int y) {
         JTextField fld = new JTextField();
-        fld.setText(text);
+
         fld.setLayout(null);
         fld.setBounds(x, y, 180, 30);
         fld.setBackground(Color.BLACK);
         fld.setForeground(Color.LIGHT_GRAY);
         fld.setFont(new Font("Arial", Font.BOLD, 15));
 
-        fld.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                if (fld.getText().equals(text)) {
-                    fld.setText("");
-                }
-
-            }
-
-            public void mouseExited(MouseEvent e) {
-                if (fld.getText().trim().isEmpty()) {
-                    fld.setText(text);
-                }
-            }
-        });
         return fld;
     }
 
