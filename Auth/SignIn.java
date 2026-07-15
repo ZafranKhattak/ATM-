@@ -14,9 +14,10 @@ import java.sql.ResultSet;
 public class SignIn {
     public SignIn() {
 
-        JFrame frame = new JFrame("SignIn Section");
+        JFrame frame = new JFrame("Enter PIN");
         frame.setLayout(null);
         frame.setVisible(true);
+        frame.getContentPane().setBackground(new Color(91, 44, 111));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 900);
 
@@ -24,26 +25,26 @@ public class SignIn {
         JPanel panel = new JPanel();
         panel.setLayout(null);
         panel.setBackground(Color.DARK_GRAY);
-        panel.setBounds(450, 100, 400, 450);
+        panel.setBounds(450, 200, 400, 450);
         panel.setBorder(BorderFactory.createLineBorder(Color.RED, 4));
         frame.add(panel);
 
+        // ==================== logo image ====================//
+        JLabel logo = new JLabel();
+        ImageIcon icon = new ImageIcon("Auth/BANK LOGO.png");
+        logo.setIcon(
+                new ImageIcon(
+                        icon.getImage().getScaledInstance(230, 230, Image.SCALE_SMOOTH)));
+        logo.setLayout(null);
+        logo.setBounds(530 , 0,300,200);
+        frame.add(logo);
         // =================== SIGN IN SECTION ================//
-        JLabel label = new JLabel("Sign In");
+        JLabel label = new JLabel("<HTML> Welcome To <br>Zafran Bank</b> </HTML");
         label.setLayout(null);
-        label.setBounds(150, 50, 100, 30);
+        label.setBounds(150, 0, 150, 130);
         label.setForeground(Color.WHITE);
         label.setFont(new Font("Arial", Font.BOLD, 18));
-        label.addMouseListener(new MouseAdapter() {
 
-            public void mouseEntered(MouseEvent e) {
-                label.setForeground(Color.WHITE);
-            }
-
-            public void mouseExited(MouseEvent e) {
-                label.setForeground(Color.BLUE);
-            }
-        });
         panel.add(label);
         // ================= CNIC FIELD =======================//
         JTextField cnicField = field("Enter CNIC", 75, 100);
@@ -54,7 +55,7 @@ public class SignIn {
         panel.add(pinField);
 
         // =================== BUTTON =================== //
-        JButton button = new JButton("Login");
+        JButton button = new JButton("Enter");
         button.setLayout(null);
         button.setBounds(25, 250, 350, 40);
         button.setForeground(Color.WHITE);
@@ -87,14 +88,13 @@ public class SignIn {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
 
-            
         });
         panel.add(button);
 
         // ======================= DONOT HAVE ACCOUNT //
         JLabel label2 = new JLabel();
         label2.setText("<html> <u>Don't have account? SignUp</u></html>");
-        label2.setForeground(Color.BLUE);
+        label2.setForeground(Color.WHITE);
         label2.setLayout(null);
         label2.setBounds(80, 300, 250, 30);
         label2.setFont(new Font("Arial", Font.BOLD, 18));
