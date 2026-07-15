@@ -2,6 +2,7 @@ package Auth;
 
 import javax.swing.*;
 
+import Dashboard.Dashboard;
 import Database.DBConnection;
 
 import java.awt.*;
@@ -76,12 +77,9 @@ public class SignIn {
 
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
-                    JOptionPane.showMessageDialog(null, "Login Successfully");
-                    return;
-                } else {
-                    JOptionPane.showMessageDialog(null, "Issue In Login");
-                }
-
+                    new Dashboard();
+                    frame.dispose();
+                } 
                 con.close();
                 ps.close();
             } catch (Exception ex) {
