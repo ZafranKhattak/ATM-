@@ -46,8 +46,8 @@ public class SignIn {
         label.setFont(new Font("Arial", Font.BOLD, 18));
 
         panel.add(label);
-        // ================= CNIC FIELD =======================//
-        JTextField cnicField = field("Enter CNIC", 75, 100);
+        // ================= MOBILE FIELD =======================//
+        JTextField cnicField = field("Phone No: ", 75, 100);
         panel.add(cnicField);
 
         // ================= PIN FIELD =================== //
@@ -63,15 +63,15 @@ public class SignIn {
         button.setFont(new Font("Arial", Font.BOLD, 18));
         button.addActionListener(e -> {
 
-            String cnic = cnicField.getText().trim();
+            String mobile = cnicField.getText().trim();
             String pin = pinField.getText().trim();
 
             try {
 
                 Connection con = DBConnection.getConnection();
-                String query = "SELECT cnic , pin from USERS WHERE cnic = ? and pin = ?";
+                String query = "SELECT mobile , pin from USERS WHERE mobile = ? and pin = ?";
                 PreparedStatement ps = con.prepareStatement(query);
-                ps.setString(1, cnic);
+                ps.setString(1, mobile);
                 ps.setString(2, pin);
 
                 ResultSet rs = ps.executeQuery();

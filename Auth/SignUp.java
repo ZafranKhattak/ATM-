@@ -13,10 +13,10 @@ public class SignUp {
         // =============== WINDOW JFRAME =================== //
 
         JFrame frame = new JFrame("SignUp Section");
+        frame.getContentPane().setBackground(new Color(91, 44, 111));
         frame.setVisible(true);
         frame.setSize(700, 800);
         frame.setLayout(null);
-        frame.getContentPane().setBackground(new Color(89, 65, 65));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // ================================================ //
@@ -25,76 +25,76 @@ public class SignUp {
 
         JPanel panel = new JPanel();
         panel.setLayout(null);
-        panel.setBounds(450, 100, 400, 500);
+        panel.setBounds(450, 70, 350, 600);
         panel.setBackground(new Color(167, 167, 229));
         frame.add(panel);
 
         // ================================================ //
 
         // ====================== JLabel SECTION ===================== //
-        JLabel welcomeLabel = label("SignUp Section",
-                570, 70);
+        JLabel welcomeLabel = label("Welcome To Zafran's Bank",
+                510, 30);
 
         frame.add(welcomeLabel);
         // ================================================ //
 
         // ===================== FIRST NAME LABEL =================== //
-        JLabel firstLabel = label("First Name:", 70, 10);
+        JLabel firstLabel = label("First Name:", 40, 10);
         panel.add(firstLabel);
         // ========================= JTEXTFILED SECTION ========================== //
-        JTextField firstField = field(70, 30);
+        JTextField firstField = field(40, 30);
         panel.add(firstField);
 
         // ===================== LAST NAME LABEL =================== //
-        JLabel lastLabel = label("Last Name:", 70, 70);
+        JLabel lastLabel = label("Last Name:", 40, 70);
         panel.add(lastLabel);
 
         // ===================== LAST NAME TEXTFIELD =================== //
-        JTextField lastField = field(70, 90);
+        JTextField lastField = field(40, 90);
         panel.add(lastField);
 
-        // ==================== CNIC LABEL ===================== //
-        JLabel cnicLabel = label("Enter CNIC", 70, 130);
+        // ==================== MOBILE LABEL ===================== //
+        JLabel cnicLabel = label("Mobile NO:", 40, 130);
         panel.add(cnicLabel);
 
-        // ==================== CNIC TEXTFILED =================== //
-        JTextField cnicField = field(70, 150);
+        // ==================== MOBILE NO TEXTFILED =================== //
+        JTextField cnicField = field(40, 150);
         panel.add(cnicField);
 
         // ==================== PIN OF ATM =====================//
-        JLabel pinLabel = label("SET PIN", 70, 190);
+        JLabel pinLabel = label("SET PIN", 40, 190);
         panel.add(pinLabel);
 
         // ==================== PIN TEXTFIELD ATM ===================== //
-        JTextField pinField = field(70, 210);
+        JTextField pinField = field(40, 210);
         panel.add(pinField);
 
         // ==================== Email Label ============================ //
-        JLabel emailLabel = label("Email", 70, 250);
+        JLabel emailLabel = label("Email", 40, 250);
         panel.add(emailLabel);
 
         // ==================== Email TextField =======================//
-        JTextField emailField = field(70, 270);
+        JTextField emailField = field(40, 270);
         panel.add(emailField);
 
         // ===================== PASSWORD LABEL ==================== //
-        JLabel passLabel = label("Enter Pass:", 70, 310);
+        JLabel passLabel = label("Enter Pass:", 40, 310);
         panel.add(passLabel);
 
         // ===================== PASSWORD FIELD =================== //
-        JPasswordField pass = pass(70, 330);
+        JPasswordField pass = pass(40, 330);
         panel.add(pass);
 
-        JLabel confirmLabel = label("Confirm Pass:", 70, 360);
+        JLabel confirmLabel = label("Confirm Pass:", 40, 360);
         panel.add(confirmLabel);
         // ===================== CONFIRM PASSWORD =================== //
-        JPasswordField confirPasswordField = pass(70, 380);
+        JPasswordField confirPasswordField = pass(40, 380);
         panel.add(confirPasswordField);
 
         // ===================== BUTTON FIELD ====================== //
         JButton btn = new JButton();
         btn.setLayout(null);
-        btn.setBounds(80, 450, 250, 40);
+        btn.setBounds(30, 430, 290, 40);
         btn.setText("Sign Up");
         btn.setBackground(Color.BLUE);
         btn.setForeground(Color.BLACK);
@@ -118,8 +118,8 @@ public class SignUp {
                 JOptionPane.showMessageDialog(null, "Enter CNIC");
                 return;
             }
-            if (cnic.length() != 13) {
-                JOptionPane.showMessageDialog(null, "CNIC must be 13 characters");
+            if (cnic.length() != 11) {
+                JOptionPane.showMessageDialog(null, "phone must be 11 characters");
                 return;
             }
 
@@ -155,24 +155,28 @@ public class SignUp {
                 return;
             }
 
-            Connection con = null;
-            PreparedStatement checkStmt = null;
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-
+            Connection con;
+            PreparedStatement checkStmt;
+            PreparedStatement ps;
+            ResultSet rs;
             try {
                 con = DBConnection.getConnection();
-                String checkQuery = "SELECT email FROM USERS WHERE email = ?";
+                String checkQuery = "SELECT email FROM USERS WHERE email = ? and mobile = ?";
                 checkStmt = con.prepareStatement(checkQuery);
                 checkStmt.setString(1, email);
+                checkStmt.setString(2, cnic);
                 rs = checkStmt.executeQuery();
 
                 if (rs.next()) {
-                    JOptionPane.showMessageDialog(null, "Email is already registered!");
+                    JOptionPane.showMessageDialog(null, "Email or phone is already registered!");
                     return;
                 }
-
-                String query = "INSERT INTO USERS(first_name, last_name, pin, cnic, email, password) VALUES (?, ?, ?, ?, ?, ?)";
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Email or phone is already registered!");
+            }
+            try {
+                con = DBConnection.getConnection();
+                String query = "INSERT INTO USERS(first_name, last_name, pin, mobile, email, password) VALUES (?, ?, ?, ?, ?, ?)";
                 ps = con.prepareStatement(query);
                 ps.setString(1, firstName);
                 ps.setString(2, lastName);
@@ -190,11 +194,25 @@ public class SignUp {
                 }
 
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Email already exists!");
-            } 
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
 
         });
+
+         // ===================== LOGIN BUTTON ====================== //
+        JButton loginButton = new JButton();
+        loginButton.setLayout(null);
+        loginButton.setText("Log In");
+        loginButton.setBounds(30, 500, 290, 40);
+        loginButton.setBackground(Color.RED);
+        loginButton.setForeground(Color.BLACK);
+        loginButton.setFont(new Font("Arial", Font.BOLD, 18));
+        loginButton.addActionListener(e->{
+            new SignIn();
+            frame.dispose();
+        });
         panel.add(btn);
+        panel.add(loginButton);
     }
 
     // ======================= LABEL METHOD ========================== //
@@ -210,12 +228,12 @@ public class SignUp {
             public void mouseEntered(MouseEvent e) {
 
                 label1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                label1.setForeground(Color.PINK);
+                label1.setForeground(Color.WHITE);
             }
 
             public void mouseExited(MouseEvent e) {
                 label1.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                label1.setForeground(Color.WHITE);
+                label1.setForeground(Color.black);
             }
         });
         return label1;

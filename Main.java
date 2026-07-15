@@ -6,8 +6,7 @@ class Main
 {
     public static void main(String args[])
     {
-        // new SignUp();
-        // new SignIn();
-        new Dashboard();
+        new SignUp();
+        // new Dashboard();
     }
 }

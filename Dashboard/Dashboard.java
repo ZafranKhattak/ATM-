@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Dashboard {
 
-    public Dashboard(String fullName) {
+    public Dashboard() {
         JFrame frame = new JFrame("DASHBOARD");
         frame.getContentPane().setBackground(new Color(91, 44, 111));
         frame.setVisible(true);
@@ -23,15 +23,31 @@ public class Dashboard {
 
         // ===================== WITHDRAW CASH BUTTON ============== //
         JButton wB = button("WithDraw Cash", 50);
+        wB.addActionListener(e->{
+            new WithdrawCash();
+            frame.dispose();
+        });
         panel.add(wB);
         // ===================== ADD CASH BUTTON ============== //
         JButton aB = button("ADD Cash", 120);
+        aB.addActionListener(e->{
+            new AddCash();
+            frame.dispose();
+        });
         panel.add(aB);
         // ===================== CHECK CASH BUTTON ============== //
         JButton cB = button("Check Cash", 200);
+        cB.addActionListener(e->{
+            new CheckCash();
+            frame.dispose();
+        });
         panel.add(cB);
         // ===================== SEND CASH BUTTON ============== //
         JButton sB = button("Transfer Cash", 280);
+        sB.addActionListener(e->{
+            new TransferCash();
+            frame.dispose();
+        });
         panel.add(sB);
 
 
