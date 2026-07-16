@@ -1,6 +1,7 @@
 package Dashboard;
 
 import javax.swing.*;
+import Auth.SignIn;
 import java.awt.*;
 
 
@@ -49,6 +50,15 @@ public class Dashboard {
             frame.dispose();
         });
         panel.add(sB);
+        // ===================== BACK  BUTTON ============== //
+        JButton bB = button("Back", 360);
+        bB.setBackground(Color.BLUE);
+        bB.addActionListener(e->{
+
+            new SignIn();
+            frame.dispose();
+        });
+        panel.add(bB);
 
 
     }
