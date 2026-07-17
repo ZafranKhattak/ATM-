@@ -4,7 +4,6 @@ import javax.swing.*;
 
 import Dashboard.Dashboard;
 import Database.DBConnection;
-
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -66,18 +65,23 @@ public class SignIn {
 
             String mobile = cnicField.getText().trim();
             String pin = pinField.getText().trim();
-
+            
             try {
 
                 Connection con = DBConnection.getConnection();
-                String query = "SELECT mobile , pin from USERS WHERE mobile = ? and pin = ?";
+                String query = "SELECT first_Name , last_Name from USERS WHERE mobile = ? and pin = ?";
                 PreparedStatement ps = con.prepareStatement(query);
                 ps.setString(1, mobile);
                 ps.setString(2, pin);
 
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
-                    new Dashboard();
+                    String firtName = rs.getString("first_Name");
+                    String lastName = rs.getString("last_Name");
+                    String fullName = "Welcome Dear," + firtName + " " + lastName;
+                    System.out.println(fullName);
+
+                    new Dashboard(fullName);
                     frame.dispose();
                 } 
                 con.close();

@@ -8,9 +8,9 @@ class Main
 {
     public static void main(String args[])
     {
-        // new SignUp();
+        new SignUp();
         // new Dashboard();
         // new TransferCash();
-        new WithdrawCash();
+        // new WithdrawCash();
     }
 }

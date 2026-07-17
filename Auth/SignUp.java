@@ -8,8 +8,8 @@ import java.sql.*;
 
 public class SignUp {
 
+    String fullName;
     public SignUp() {
-
         // =============== WINDOW JFRAME =================== //
 
         JFrame frame = new JFrame("SignUp Section");
@@ -189,8 +189,6 @@ public class SignUp {
                 if (row > 0) {
                     JOptionPane.showMessageDialog(null, "Account Created Successfully");
                     return;
-                } else {
-                    JOptionPane.showMessageDialog(null, "Failed to Create Account");
                 }
 
             } catch (Exception ex) {
